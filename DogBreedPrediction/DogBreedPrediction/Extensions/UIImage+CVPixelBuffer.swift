@@ -1,10 +1,11 @@
 import UIKit
 
 // CREDIT: Based on code from github.com/cieslak/CoreMLCrap.
+// CREDIT: Based on code from stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
 
 extension UIImage {
     
-    func convert() -> CVPixelBuffer? {        
+    func convert() -> CVPixelBuffer? {                
         // NOTE: Scale source image to 224x224 (distortion is okay)
         let imageSize = CGSize(width: 224, height: 224)
         let imageRect = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
@@ -18,7 +19,7 @@ extension UIImage {
         // NOTE: Create a pixel buffer for redrawing scaled image as BGR
         var pixelBuffer: CVPixelBuffer?
         let options = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(imageSize.width), Int(imageSize.height), kCVPixelFormatType_32BGRA, options, &pixelBuffer)
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(imageSize.width), Int(imageSize.height), kCVPixelFormatType_32ARGB, options, &pixelBuffer)
         guard status == kCVReturnSuccess, let bgrPixelBuffer = pixelBuffer else {
             return nil
         }
@@ -42,5 +43,44 @@ extension UIImage {
         UIGraphicsPopContext()
         CVPixelBufferUnlockBaseAddress(bgrPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
         return pixelBuffer
+    }
+    
+    func subtractImageNetMean() -> UIImage? {
+        guard let imageAsCGImage = cgImage else {
+            print("unable to get cgImage")
+            return nil
+        }
+        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        let width            = imageAsCGImage.width
+        let height           = imageAsCGImage.height
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * width
+        let bitmapInfo       = RGBA32.bitmapInfo
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            print("unable to create context")
+            return nil
+        }
+        context.draw(imageAsCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        guard let buffer = context.data else {
+            print("unable to get context data")
+            return nil
+        }
+        
+        let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
+
+        for row in 0 ..< Int(height) {
+            for column in 0 ..< Int(width) {
+                let offset = row * width + column                
+                pixelBuffer[offset] = pixelBuffer[offset].normalizedColor
+            }
+        }
+        
+        let outputCGImage = context.makeImage()!
+        let outputImage = UIImage(cgImage: outputCGImage, scale: scale, orientation: imageOrientation)
+        
+        return outputImage
     }
 }
