@@ -8,12 +8,15 @@
 
 import UIKit
 import Photos
+import Vision
 
 // MARK: - ClassifyVC: UIViewController
 
 class ClassifyVC: UIViewController {
     
     // MARK: Properties
+    
+    let model = Resnet50()
     
     let classifyView: ClassifyView = {
         let view = ClassifyView(frame: .zero)
@@ -28,6 +31,30 @@ class ClassifyVC: UIViewController {
         classifyView.delegate = self
         classifyView.frame = view.frame
         view.addSubview(classifyView)
+    }
+    
+    // MARK: CoreML
+    
+    func predictUsingCoreML(image: UIImage) {
+        if let imageData = image.convert(), let prediction = try? model.prediction(image: imageData) {
+            let top5 = top(5, prediction.classLabelProbs)
+            show(predictions: top5)
+        }
+    }
+    
+    func show(predictions: [Prediction]) {
+        var s: [String] = []
+        for (i, prediction) in predictions.enumerated() {
+            s.append(String(format: "%d: %@ (%3.2f%%)", i + 1, prediction.category, prediction.probability * 100))
+        }
+        classifyView.detailTextView.text = s.joined(separator: "\n\n")
+    }
+    
+    func top(_ k: Int, _ prob: [String: Double]) -> [Prediction] {
+        precondition(k <= prob.count)
+        return Array(prob.map { x in Prediction(category: x.key, probability: x.value) }
+            .sorted(by: { a, b -> Bool in a.probability > b.probability })
+            .prefix(through: k - 1))
     }
 }
 
@@ -49,8 +76,8 @@ extension ClassifyVC: UIImagePickerControllerDelegate, UINavigationControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             classifyView.changeImage(image)
+            predictUsingCoreML(image: image)
         }
-        
         dismiss(animated: true, completion: nil)
     }
     

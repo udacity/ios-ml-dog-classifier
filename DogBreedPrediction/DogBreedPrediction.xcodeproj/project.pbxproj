@@ -10,9 +10,11 @@
 		A924858A1EE65367006DEC3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92485891EE65367006DEC3D /* AppDelegate.swift */; };
 		A924858C1EE65367006DEC3D /* ClassifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A924858B1EE65367006DEC3D /* ClassifyVC.swift */; };
 		A92485911EE65367006DEC3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A92485901EE65367006DEC3D /* Assets.xcassets */; };
+		A9650D291EE89FFD005DE5DB /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = A9650D281EE89FFD005DE5DB /* Resnet50.mlmodel */; };
+		A9650D2B1EE8A981005DE5DB /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9650D2A1EE8A92A005DE5DB /* UIImage+CVPixelBuffer.swift */; };
+		A9650D311EE8BD5F005DE5DB /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9650D301EE8BD5F005DE5DB /* Prediction.swift */; };
 		A99A20C41EE733590010CF44 /* ClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A20C31EE733590010CF44 /* ClassifyView.swift */; };
 		A99A20CF1EE778550010CF44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A99A20CE1EE778550010CF44 /* LaunchScreen.storyboard */; };
-		A99A20D21EE783C30010CF44 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = A99A20D11EE783C30010CF44 /* Resnet50.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,9 +23,11 @@
 		A924858B1EE65367006DEC3D /* ClassifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyVC.swift; sourceTree = "<group>"; };
 		A92485901EE65367006DEC3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A92485951EE65367006DEC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9650D281EE89FFD005DE5DB /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Resnet50.mlmodel; path = ../../../../../../Downloads/Resnet50.mlmodel; sourceTree = "<group>"; };
+		A9650D2A1EE8A92A005DE5DB /* UIImage+CVPixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+CVPixelBuffer.swift"; sourceTree = "<group>"; };
+		A9650D301EE8BD5F005DE5DB /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		A99A20C31EE733590010CF44 /* ClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyView.swift; sourceTree = "<group>"; };
 		A99A20CE1EE778550010CF44 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A99A20D11EE783C30010CF44 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Resnet50.mlmodel; path = ../../../../../Downloads/Resnet50.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 		A92485881EE65367006DEC3D /* DogBreedPrediction */ = {
 			isa = PBXGroup;
 			children = (
+				A9650D2D1EE8BCF5005DE5DB /* Models */,
+				A9650D2C1EE8B124005DE5DB /* Extensions */,
 				A99A20D01EE7815C0010CF44 /* Resources */,
 				A92485891EE65367006DEC3D /* AppDelegate.swift */,
 				A924858B1EE65367006DEC3D /* ClassifyVC.swift */,
@@ -67,10 +73,26 @@
 			path = DogBreedPrediction;
 			sourceTree = "<group>";
 		};
+		A9650D2C1EE8B124005DE5DB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A9650D2A1EE8A92A005DE5DB /* UIImage+CVPixelBuffer.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A9650D2D1EE8BCF5005DE5DB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A9650D301EE8BD5F005DE5DB /* Prediction.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		A99A20D01EE7815C0010CF44 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A99A20D11EE783C30010CF44 /* Resnet50.mlmodel */,
+				A9650D281EE89FFD005DE5DB /* Resnet50.mlmodel */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -147,7 +169,9 @@
 			files = (
 				A99A20C41EE733590010CF44 /* ClassifyView.swift in Sources */,
 				A924858C1EE65367006DEC3D /* ClassifyVC.swift in Sources */,
-				A99A20D21EE783C30010CF44 /* Resnet50.mlmodel in Sources */,
+				A9650D2B1EE8A981005DE5DB /* UIImage+CVPixelBuffer.swift in Sources */,
+				A9650D311EE8BD5F005DE5DB /* Prediction.swift in Sources */,
+				A9650D291EE89FFD005DE5DB /* Resnet50.mlmodel in Sources */,
 				A924858A1EE65367006DEC3D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
