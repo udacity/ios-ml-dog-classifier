@@ -8,7 +8,6 @@
 
 import UIKit
 import Photos
-import Vision
 
 // MARK: - ClassifyVC: UIViewController
 
@@ -36,11 +35,16 @@ class ClassifyVC: UIViewController {
     // MARK: CoreML
     
     func predictUsingCoreML(image: UIImage) {
-        if let imageData = image
+        guard let imageData = image
+            .subtractMeanRGB(red: 103.939/255.0, green: 116.779/255.0, blue: 123.68/255.0)?
             .resize(newSize: CGSize(width: 224, height: 224))?
-            //.normalizeRGB(averageRGB: RGBA32(red: 104, green: 117, blue: 124, alpha: 1))?
-            .pixelBuffer(forPixelFormat: kCVPixelFormatType_32BGRA),
-            let prediction = try? model.prediction(image: imageData) {
+            .swapRedBlueChannels()?
+            .pixelBuffer(colorspace: .rgb) else {
+                print("preprocessing failed")
+                return
+        }
+        
+        if let prediction = try? model.prediction(image: imageData) {
             let top5 = top(5, prediction.classLabelProbs)
             show(predictions: top5)
         } else {

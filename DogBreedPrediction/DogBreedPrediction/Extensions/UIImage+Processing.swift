@@ -1,4 +1,4 @@
-//
+ //
 //  UIImage+Processing.swift
 //  DogBreedPrediction
 //
@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import CoreImage
 
 // CREDIT: medium.com/towards-data-science/welcoming-core-ml-8ba325227a28
 
 // MARK: - UIImage (Processing)
 
 extension UIImage {
+    
+    // MARK: Transformations
     
     func resize(newSize: CGSize) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
@@ -22,20 +25,20 @@ extension UIImage {
         return newImage
     }
     
-    func pixelBuffer(forPixelFormat pixelFormat: OSType) -> CVPixelBuffer? {
+    func pixelBuffer(colorspace: Colorspace) -> CVPixelBuffer? {
         // NOTE: Create pixel buffer with specified pixel format
         var pixelBuffer: CVPixelBuffer?
         let options = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(size.width), Int(size.height), pixelFormat, options, &pixelBuffer)
-        guard status == kCVReturnSuccess, let bgrPixelBuffer = pixelBuffer else {
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(size.width), Int(size.height), colorspace.type, options, &pixelBuffer)
+        guard status == kCVReturnSuccess, let finalPixelBuffer = pixelBuffer else {
             return nil
         }
         
         // NOTE: Create context ("canvas") for drawing pixels
-        CVPixelBufferLockBaseAddress(bgrPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
-        let pixelData = CVPixelBufferGetBaseAddress(bgrPixelBuffer)
+        CVPixelBufferLockBaseAddress(finalPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(finalPixelBuffer)
         let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-        guard let context = CGContext(data: pixelData, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(bgrPixelBuffer), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
+        guard let context = CGContext(data: pixelData, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(finalPixelBuffer), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
             return nil
         }
         context.translateBy(x: 0, y: size.height)
@@ -45,30 +48,20 @@ extension UIImage {
         UIGraphicsPushContext(context)
         draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         UIGraphicsPopContext()
-        CVPixelBufferUnlockBaseAddress(bgrPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        CVPixelBufferUnlockBaseAddress(finalPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
         
-        return bgrPixelBuffer
+        return finalPixelBuffer
     }
     
-    func normalizeRGB(averageRGB: RGBA32) -> UIImage? {
-        guard let cgImage = cgImage else {
+    // MARK: Filter
+    
+    func swapRedBlueChannels() -> UIImage? {
+        guard let cgImage = cgImage, let context = createEmptyContext() else {
             return nil
         }
         
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
-        let width            = cgImage.width
-        let height           = cgImage.height
-        let bytesPerPixel    = 4
-        let bitsPerComponent = 8
-        let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
-        let averageRed       = averageRGB.redComponent
-        let averageGreen     = averageRGB.greenComponent
-        let averageBlue      = averageRGB.blueComponent
-        
-        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            return nil
-        }
+        let width = Int(size.width)
+        let height = Int(size.height)
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
         
         guard let buffer = context.data else {
@@ -81,16 +74,39 @@ extension UIImage {
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-                let normalizedRed = pixelBuffer[offset].redComponent > averageRed ? pixelBuffer[offset].redComponent - averageRed : 0                                                
-                let normalizedGreen = pixelBuffer[offset].greenComponent > averageGreen ? averageRGB.greenComponent - averageGreen : 0
-                let normalizedBlue = pixelBuffer[offset].blueComponent > averageBlue ? averageRGB.blueComponent - averageBlue : 0
-                pixelBuffer[offset] = RGBA32(red: normalizedRed, green: normalizedGreen, blue: normalizedBlue, alpha: pixelBuffer[offset].alphaComponent)
+                let pixel = pixelBuffer[offset]
+                pixelBuffer[offset] = RGBA32(red: pixel.blueComponent, green: pixel.greenComponent, blue: pixel.redComponent, alpha: pixel.alphaComponent)
             }
         }
         
-        let outputCGImage = context.makeImage()!
-        let outputImage = UIImage(cgImage: outputCGImage, scale: scale, orientation: imageOrientation)
+        return UIImage(cgImage: context.makeImage()!)
+    }
+    
+    func subtractMeanRGB(red: Double, green: Double, blue: Double) -> UIImage? {
+        guard let cgImage = cgImage else {
+            return nil
+        }
         
-        return outputImage
+        let ciImage = CIImage(cgImage: cgImage)
+        let normalizedImage = ciImage.applyingFilter("CIColorMatrix", withInputParameters: [
+            "inputRVector": CIVector(x: 0.408, y: 0, z: 0),
+            "inputGVector": CIVector(x: 0, y: 0.458, z: 0),
+            "inputBVector": CIVector(x: 0, y: 0, z: 0.485)
+        ])
+        
+        return UIImage(ciImage: normalizedImage)
+    }
+    
+    // MARK: Helper
+    
+    private func createEmptyContext() -> CGContext? {
+        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        let width            = size.width
+        let height           = size.height
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * Int(size.width)
+        let bitmapInfo       = RGBA32.bitmapInfo
+        return CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
     }
 }
