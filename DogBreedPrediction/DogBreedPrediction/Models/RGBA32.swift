@@ -8,7 +8,9 @@
 
 import CoreGraphics
 
-struct RGBA32: Equatable {
+// MARK: - RGBA32
+
+struct RGBA32 {
     private var color: UInt32
     
     var redComponent: UInt8 {
@@ -32,7 +34,11 @@ struct RGBA32: Equatable {
     }
             
     static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
-    
+}
+
+// MARK: - RGBA32: Equatable
+
+extension RGBA32: Equatable {
     static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
         return lhs.color == rhs.color
     }

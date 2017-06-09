@@ -38,6 +38,7 @@ class ClassifyVC: UIViewController {
     func predictUsingCoreML(image: UIImage) {
         if let imageData = image
             .resize(newSize: CGSize(width: 224, height: 224))?
+            //.normalizeRGB(averageRGB: RGBA32(red: 104, green: 117, blue: 124, alpha: 1))?
             .pixelBuffer(forPixelFormat: kCVPixelFormatType_32BGRA),
             let prediction = try? model.prediction(image: imageData) {
             let top5 = top(5, prediction.classLabelProbs)
