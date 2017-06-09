@@ -36,14 +36,14 @@ class ClassifyVC: UIViewController {
     // MARK: CoreML
     
     func predictUsingCoreML(image: UIImage) {
-        // FIXME: failing to normalize...
-//        if let normalizedImage = image.subtractImageNetMean(), let imageData = normalizedImage.convert(), let prediction = try? model.prediction(image: imageData) {
-//            let top5 = top(5, prediction.classLabelProbs)
-//            show(predictions: top5)
-//        }
-        if let imageData = image.convert(), let prediction = try? model.prediction(image: imageData) {
+        if let imageData = image
+            .resize(newSize: CGSize(width: 224, height: 224))?
+            .pixelBuffer(forPixelFormat: kCVPixelFormatType_32BGRA),
+            let prediction = try? model.prediction(image: imageData) {
             let top5 = top(5, prediction.classLabelProbs)
             show(predictions: top5)
+        } else {
+            print("prediction failed")
         }
     }
     
