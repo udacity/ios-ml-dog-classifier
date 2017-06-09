@@ -1,7 +1,7 @@
 # for saving resnet-50 model
-# from keras.applications.resnet50 import ResNet50
-# model = ResNet50(weights='imagenet')
-# model.save('ResNet50_for_iOS.h5')
+from keras.applications.resnet50 import ResNet50
+model = ResNet50(weights='imagenet')
+model.save('final_models/ResNet50_for_iOS.h5')
 
 # for saving student model
 from keras.applications.resnet50 import ResNet50
@@ -24,4 +24,4 @@ student_model.layers[-2].set_weights(student_model_stump.layers[2].get_weights()
 student_model.layers[-1].set_weights(student_model_stump.layers[3].get_weights())
 
 student_model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
-student_model.save('student_model_for_iOS.h5')
+student_model.save('final_models/student_model_for_iOS.h5')
