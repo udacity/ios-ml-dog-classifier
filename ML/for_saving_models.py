@@ -1,6 +1,7 @@
 # for saving resnet-50 model
 from keras.applications.resnet50 import ResNet50
 model = ResNet50(weights='imagenet')
+model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 model.save('final_models/ResNet50_for_iOS.h5')
 
 # for saving student model
