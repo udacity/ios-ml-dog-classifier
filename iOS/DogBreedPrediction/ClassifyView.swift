@@ -62,18 +62,18 @@ class ClassifyView: UIView {
     }()
     
     let photoLibraryButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "photos"), style: .plain, target: self, action: #selector(photoLibraryButtonPressed))
+        let button = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(photoLibraryButtonPressed))
         return button
     }()
     
     let cameraButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "camera"), style: .plain, target: self, action: #selector(cameraButtonPressed))
+        let button = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(cameraButtonPressed))
         button.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         return button
     }()
     
     let videoButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "video"), style: .plain, target: self, action: #selector(videoButtonPressed))
+        let button = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(videoButtonPressed))
         button.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         return button
     }()
@@ -116,11 +116,13 @@ class ClassifyView: UIView {
         addSubview(dogStack)
         
         toolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             photoLibraryButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             cameraButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            videoButton
+            videoButton,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
         addSubview(toolbar)
     }

@@ -11,13 +11,13 @@
 		A924858A1EE65367006DEC3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92485891EE65367006DEC3D /* AppDelegate.swift */; };
 		A924858C1EE65367006DEC3D /* ClassifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A924858B1EE65367006DEC3D /* ClassifyVC.swift */; };
 		A92485911EE65367006DEC3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A92485901EE65367006DEC3D /* Assets.xcassets */; };
-		A9650D291EE89FFD005DE5DB /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = A9650D281EE89FFD005DE5DB /* Resnet50.mlmodel */; };
 		A9650D2B1EE8A981005DE5DB /* UIImage+Processing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9650D2A1EE8A92A005DE5DB /* UIImage+Processing.swift */; };
 		A9650D311EE8BD5F005DE5DB /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9650D301EE8BD5F005DE5DB /* Prediction.swift */; };
 		A99A20C41EE733590010CF44 /* ClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A20C31EE733590010CF44 /* ClassifyView.swift */; };
 		A99A20CF1EE778550010CF44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A99A20CE1EE778550010CF44 /* LaunchScreen.storyboard */; };
 		A9E2E2851EEB600F001B73AF /* Colorspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E2E2841EEB600F001B73AF /* Colorspace.swift */; };
 		A9E2E2871EEB653C001B73AF /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E2E2861EEB646D001B73AF /* RGBA32.swift */; };
+		A9F708C31EECAEB700341081 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = A9F708C21EECAEB300341081 /* Resnet50.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,13 +27,13 @@
 		A924858B1EE65367006DEC3D /* ClassifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyVC.swift; sourceTree = "<group>"; };
 		A92485901EE65367006DEC3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A92485951EE65367006DEC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9650D281EE89FFD005DE5DB /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Resnet50.mlmodel; path = ../../../../../../Downloads/Resnet50.mlmodel; sourceTree = "<group>"; };
 		A9650D2A1EE8A92A005DE5DB /* UIImage+Processing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Processing.swift"; sourceTree = "<group>"; };
 		A9650D301EE8BD5F005DE5DB /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		A99A20C31EE733590010CF44 /* ClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyView.swift; sourceTree = "<group>"; };
 		A99A20CE1EE778550010CF44 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A9E2E2841EEB600F001B73AF /* Colorspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorspace.swift; sourceTree = "<group>"; };
 		A9E2E2861EEB646D001B73AF /* RGBA32.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBA32.swift; sourceTree = "<group>"; };
+		A9F708C21EECAEB300341081 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 		A99A20D01EE7815C0010CF44 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A9650D281EE89FFD005DE5DB /* Resnet50.mlmodel */,
+				A9F708C21EECAEB300341081 /* Resnet50.mlmodel */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -177,11 +177,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9E2E2871EEB653C001B73AF /* RGBA32.swift in Sources */,
+				A9F708C31EECAEB700341081 /* Resnet50.mlmodel in Sources */,
 				A99A20C41EE733590010CF44 /* ClassifyView.swift in Sources */,
 				A924858C1EE65367006DEC3D /* ClassifyVC.swift in Sources */,
 				A9650D2B1EE8A981005DE5DB /* UIImage+Processing.swift in Sources */,
 				A9650D311EE8BD5F005DE5DB /* Prediction.swift in Sources */,
-				A9650D291EE89FFD005DE5DB /* Resnet50.mlmodel in Sources */,
 				A9E2E2851EEB600F001B73AF /* Colorspace.swift in Sources */,
 				A920DB2C1EEB71AE0056328F /* ClassifyVideoVC.swift in Sources */,
 				A924858A1EE65367006DEC3D /* AppDelegate.swift in Sources */,

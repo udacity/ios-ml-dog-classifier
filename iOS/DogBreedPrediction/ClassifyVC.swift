@@ -48,13 +48,14 @@ class ClassifyVC: UIViewController {
                 return
             }
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async {                
                 self.predictUsingCoreML(imageData: imageData)
             }
         }
     }
     
     func predictUsingCoreML(imageData: CVPixelBuffer) {
+        // FIXME: Ensure images are flipped upright? Possibly by using the vision framework!
         if let prediction = try? model.prediction(image: imageData) {
             let top5 = top(5, prediction.classLabelProbs)
             show(predictions: top5)
@@ -91,7 +92,7 @@ extension ClassifyVC: ClassifyViewDelegate {
     }
     
     func videoButtonPressed() {
-        print("open video detector")        
+        present(ClassifyVideoVC(), animated: true, completion: nil)
     }
 }
 
