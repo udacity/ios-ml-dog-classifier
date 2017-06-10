@@ -13,6 +13,7 @@ import UIKit
 protocol ClassifyViewDelegate {
     func cameraButtonPressed()
     func photoLibraryButtonPressed()
+    func videoButtonPressed()
 }
 
 // MARK: - ClassifyView: UIView
@@ -50,8 +51,8 @@ class ClassifyView: UIView {
     let detailTextView: UITextView = {
         let textView = UITextView(frame: .zero)
         textView.isEditable = false
-        textView.text = "Take a picture or select an existing photo to begin classifying!"
-        textView.font = UIFont.systemFont(ofSize: 14)
+        textView.text = "Classify a dog by using an existing photo, taking a new photo, or directly from a video feed!"
+        textView.font = UIFont.systemFont(ofSize: 15)
         return textView
     }()
     
@@ -59,15 +60,21 @@ class ClassifyView: UIView {
         let toolbar = UIToolbar(frame: .zero)
         return toolbar
     }()
-        
+    
+    let photoLibraryButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "photos"), style: .plain, target: self, action: #selector(photoLibraryButtonPressed))
+        return button
+    }()
+    
     let cameraButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "camera"), style: .plain, target: self, action: #selector(cameraButtonPressed))
         button.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         return button
     }()
     
-    let photoLibraryButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "photos"), style: .plain, target: self, action: #selector(photoLibraryButtonPressed))
+    let videoButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "video"), style: .plain, target: self, action: #selector(videoButtonPressed))
+        button.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         return button
     }()
     
@@ -96,6 +103,10 @@ class ClassifyView: UIView {
         delegate?.photoLibraryButtonPressed()
     }
     
+    @objc func videoButtonPressed() {
+        delegate?.videoButtonPressed()
+    }
+    
     // MARK: Setup
     
     func addSubviews() {
@@ -105,9 +116,11 @@ class ClassifyView: UIView {
         addSubview(dogStack)
         
         toolbar.items = [
+            photoLibraryButton,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             cameraButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            photoLibraryButton
+            videoButton
         ]
         addSubview(toolbar)
     }
@@ -138,12 +151,16 @@ class ClassifyView: UIView {
         }
     }
     
-    // MARK: Change Image
+    // MARK: Modify Contents
     
     func changeImage(_ image: UIImage) {
         imageView.alpha = 1.0
         imageView.backgroundColor = nil
         imageView.layer.cornerRadius = 0
         imageView.image = image
+    }
+    
+    func changeDetailText(toText text: String) {
+        detailTextView.text = text
     }
 }
