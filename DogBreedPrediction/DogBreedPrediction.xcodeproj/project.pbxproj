@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A920DB2C1EEB71AE0056328F /* ClassifyVideoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920DB2B1EEB71AE0056328F /* ClassifyVideoVC.swift */; };
 		A924858A1EE65367006DEC3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92485891EE65367006DEC3D /* AppDelegate.swift */; };
 		A924858C1EE65367006DEC3D /* ClassifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A924858B1EE65367006DEC3D /* ClassifyVC.swift */; };
 		A92485911EE65367006DEC3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A92485901EE65367006DEC3D /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A920DB2B1EEB71AE0056328F /* ClassifyVideoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyVideoVC.swift; sourceTree = "<group>"; };
 		A92485861EE65367006DEC3D /* DogBreedPrediction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogBreedPrediction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A92485891EE65367006DEC3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A924858B1EE65367006DEC3D /* ClassifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyVC.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			children = (
 				A92485891EE65367006DEC3D /* AppDelegate.swift */,
 				A924858B1EE65367006DEC3D /* ClassifyVC.swift */,
+				A920DB2B1EEB71AE0056328F /* ClassifyVideoVC.swift */,
 				A99A20C31EE733590010CF44 /* ClassifyView.swift */,
 				A9650D2D1EE8BCF5005DE5DB /* Types */,
 				A9650D2C1EE8B124005DE5DB /* Extensions */,
@@ -180,6 +183,7 @@
 				A9650D311EE8BD5F005DE5DB /* Prediction.swift in Sources */,
 				A9650D291EE89FFD005DE5DB /* Resnet50.mlmodel in Sources */,
 				A9E2E2851EEB600F001B73AF /* Colorspace.swift in Sources */,
+				A920DB2C1EEB71AE0056328F /* ClassifyVideoVC.swift in Sources */,
 				A924858A1EE65367006DEC3D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = AT7S4C746C;
 				INFOPLIST_FILE = DogBreedPrediction/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.udacity.DogBreedPrediction;
@@ -307,6 +312,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = AT7S4C746C;
 				INFOPLIST_FILE = DogBreedPrediction/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.udacity.DogBreedPrediction;

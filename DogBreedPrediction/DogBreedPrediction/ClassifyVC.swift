@@ -34,16 +34,27 @@ class ClassifyVC: UIViewController {
     
     // MARK: CoreML
     
-    func predictUsingCoreML(image: UIImage) {
-        guard let imageData = image
-            .subtractMeanRGB(red: 103.939/255.0, green: 116.779/255.0, blue: 123.68/255.0)?
-            .resize(newSize: CGSize(width: 224, height: 224))?
-            .swapRedBlueChannels()?
-            .pixelBuffer(colorspace: .rgb) else {
+    func processImageForPrediction(image: UIImage) {
+        
+        classifyView.changeDetailText(toText: "Processing image for classification...")
+        
+        // NOTE: Do pre-processing on background thread
+        DispatchQueue.global(qos: .background).async {
+            guard let normalizedImage = image
+                .subtractMeanRGB(red: 103.939/255.0, green: 116.779/255.0, blue: 123.68/255.0)?
+                .resize(newSize: CGSize(width: 224, height: 224))?
+                .swapRedBlueChannels(), let imageData = normalizedImage.pixelBuffer(colorspace: .rgb) else {
                 print("preprocessing failed")
                 return
+            }
+            
+            DispatchQueue.main.async {
+                self.predictUsingCoreML(imageData: imageData)
+            }
         }
-        
+    }
+    
+    func predictUsingCoreML(imageData: CVPixelBuffer) {
         if let prediction = try? model.prediction(image: imageData) {
             let top5 = top(5, prediction.classLabelProbs)
             show(predictions: top5)
@@ -78,6 +89,10 @@ extension ClassifyVC: ClassifyViewDelegate {
     func photoLibraryButtonPressed() {
         openImagePicker(sourceType: .photoLibrary)
     }
+    
+    func videoButtonPressed() {
+        print("open video detector")        
+    }
 }
 
 // MARK: - ClassifyVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -86,7 +101,7 @@ extension ClassifyVC: UIImagePickerControllerDelegate, UINavigationControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             classifyView.changeImage(image)
-            predictUsingCoreML(image: image)
+            processImageForPrediction(image: image)
         }
         dismiss(animated: true, completion: nil)
     }
