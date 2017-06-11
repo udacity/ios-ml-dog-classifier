@@ -1,6 +1,6 @@
 # for saving resnet-50 model
 from keras.applications.resnet50 import ResNet50
-model = ResNet50(weights='imagenet')
+model = ResNet50(weights='imagenet', input_shape=(224, 224, 3))
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 model.save('final_models/ResNet50_for_iOS.h5')
 
@@ -9,7 +9,7 @@ from keras.applications.resnet50 import ResNet50
 from keras.models import load_model, Model
 from keras.layers import GlobalAveragePooling2D, Dropout, Dense
 
-resnet_50_model = ResNet50(weights='imagenet', include_top=False)
+resnet_50_model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 last = resnet_50_model.output
 x = GlobalAveragePooling2D()(last)
 x = Dense(512, activation='relu')(x)
