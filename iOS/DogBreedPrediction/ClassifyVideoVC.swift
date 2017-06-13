@@ -21,6 +21,7 @@ class ClassifyVideoVC: UIViewController {
     private var output: AVCaptureVideoDataOutput?
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var classificationRequest: VNCoreMLRequest?
+    
     private let resultLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 44.0))
         label.backgroundColor = .black
@@ -30,6 +31,19 @@ class ClassifyVideoVC: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    
+    private let closeButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.setImage(#imageLiteral(resourceName: "close"), for: .normal)
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        return button
+    }()
+    
+    // MARK: Dismiss
+    
+    @objc private func close() {
+        dismiss(animated: true, completion: nil)
+    }
     
     // MARK: Camera Methods
     
@@ -64,14 +78,15 @@ class ClassifyVideoVC: UIViewController {
     func handleClassification(request: VNRequest, error: Error?) {
         guard let observations = request.results else {
             DispatchQueue.main.async {
-                self.resultLabel.text = ""
+                self.resultLabel.text = "Not seeing any dogs..."
             }
             return
         }
         
-        let result = observations[0...4]                        // limit to 5 results
+        // NOTE: Limit to 5 results and at least 20% confidence
+        let result = observations[0...4]
             .flatMap({ $0 as? VNClassificationObservation })
-            .filter({ $0.confidence > 0.3 })                    // and at least 30% confidence
+            .filter({ $0.confidence > 0.2 })
             .map({ $0.identifier })
             .joined(separator: ", ")
         
@@ -85,45 +100,43 @@ class ClassifyVideoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // NOTE: Check for camera
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            let cameraLabel = UILabel(frame: self.view.bounds)
+            let cameraLabel = UILabel(frame: view.bounds)
             cameraLabel.text = "Must use a device with a camera."
             cameraLabel.backgroundColor = .black
             cameraLabel.textColor = .white
             cameraLabel.font = .boldSystemFont(ofSize: 15.0)
             cameraLabel.numberOfLines = 0
             cameraLabel.textAlignment = .center
-            self.view.addSubview(cameraLabel)
+            view.addSubview(cameraLabel)
             return
         }
         
-        // initialize capture session & output
         initializeCamera()
-        
-        // initialize vision
         initializeVision()
         
-        // add the preview layer
+        // NOTE: Begin video feed
         if let session = session {
             previewLayer = AVCaptureVideoPreviewLayer(session: session)
             if let previewLayer = previewLayer {
                 previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                previewLayer.frame = self.view.bounds
-                self.view.layer.addSublayer(previewLayer)
+                previewLayer.frame = view.bounds
+                view.layer.addSublayer(previewLayer)
             }
         }
-        
-        // add the result label
-        self.view.addSubview(resultLabel)
-        
-        // start the session
         session?.startRunning()
+        
+        // NOTE: Add remaining views
+        view.addSubview(resultLabel)
+        view.addSubview(closeButton)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        previewLayer?.frame = self.view.bounds
-        resultLabel.frame = CGRect(x: 0.0, y: self.view.frame.size.height - resultLabel.frame.size.height, width: self.view.frame.size.width, height: resultLabel.frame.size.height)
+        previewLayer?.frame = view.bounds
+        resultLabel.frame = CGRect(x: 0.0, y: view.frame.size.height - resultLabel.frame.size.height, width: view.frame.size.width, height: resultLabel.frame.size.height)
+        closeButton.frame = CGRect(x: view.frame.size.width - 64, y: 32, width: 48, height: 48)
     }
 }
 
@@ -141,7 +154,7 @@ extension ClassifyVideoVC: AVCaptureVideoDataOutputSampleBufferDelegate {
             requestOptions = [.cameraIntrinsics: cameraIntrinsicData]
         }
         
-        // @TODO: Get the orientation from the device. This only supports portrait orientation right now (6).
+        // TODO: Get the orientation from the device. This only supports portrait orientation (6) right now.
         let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: 6, options: requestOptions)
         do {
             try imageRequestHandler.perform([request])
@@ -150,4 +163,3 @@ extension ClassifyVideoVC: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
 }
-
