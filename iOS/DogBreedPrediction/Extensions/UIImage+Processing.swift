@@ -53,7 +53,8 @@ extension UIImage {
         return finalPixelBuffer
     }
     
-    // MARK: Filter
+    // MARK: Processing Filters
+    // NOTE: This is done automatically when generating CoreML models. See example of red, green, blue bias for Keras --> CoreML conversions: pythonhosted.org/coremltools/generated/coremltools.converters.keras.convert.html
     
     func swapRedBlueChannels() -> UIImage? {
         guard let cgImage = cgImage, let context = createEmptyContext() else {

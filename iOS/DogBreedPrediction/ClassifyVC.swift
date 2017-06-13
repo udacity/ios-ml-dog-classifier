@@ -40,10 +40,7 @@ class ClassifyVC: UIViewController {
         
         // NOTE: Do pre-processing on background thread
         DispatchQueue.global(qos: .background).async {
-            guard let normalizedImage = image
-                .subtractMeanRGB(red: 103.939/255.0, green: 116.779/255.0, blue: 123.68/255.0)?
-                .resize(newSize: CGSize(width: 224, height: 224))?
-                .swapRedBlueChannels(), let imageData = normalizedImage.pixelBuffer(colorspace: .rgb) else {
+            guard let normalizedImage = image.resize(newSize: CGSize(width: 224, height: 224)), let imageData = normalizedImage.pixelBuffer(colorspace: .rgb) else {
                 print("preprocessing failed")
                 return
             }
@@ -54,8 +51,7 @@ class ClassifyVC: UIViewController {
         }
     }
     
-    func predictUsingCoreML(imageData: CVPixelBuffer) {
-        // FIXME: Ensure images are flipped upright? Possibly by using the vision framework!
+    func predictUsingCoreML(imageData: CVPixelBuffer) {        
         if let prediction = try? model.prediction(image: imageData) {
             let top5 = top(5, prediction.classLabelProbs)
             show(predictions: top5)
