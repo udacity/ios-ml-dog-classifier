@@ -26,4 +26,4 @@ This iOS app uses [CoreML](https://developer.apple.com/machine-learning/) and a 
 
 ## How it Works
 
-The iOS app relies on two neural networks — Resnet50 and StudentDogModel (the dog classifier). When an image or video frame is processed by the app, it first goes through the Resnet50 model to determine if a dog is present in the image. If a dog is present, then a second classification is done using the StudentDogModel which determines the dog's breed.
+The iOS app relies on two neural networks — Resnet50 and StudentDogModel (the dog classifier). When an image or video frame is processed by the app, it first goes through the Resnet50 model to determine if a dog is present. If a dog is present, then a second classification is done using the StudentDogModel to determine the dog's breed.
