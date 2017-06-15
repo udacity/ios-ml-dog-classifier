@@ -1,16 +1,29 @@
-# Crossover Content: Machine Learning and iOS
+# Dog Classifier iOS App
 
-The purpose of this repository is track collaborative, crossover content development between the Machine Learning and iOS content teams. Here you will find an example iOS application that utilizes ResNet50 to calculate the probabilities that an image or video frame contains an object described by its (1,000) categories. The app also utilizes a student model which, provided an image of a dog, calculates the probability that the dog contained within the image is of a certain breed.
+This iOS app uses [CoreML](https://developer.apple.com/machine-learning/) and a neural network classifier built by James Requa, a graduate from Udacity's Deep Learning Nanodegree Foundation program, and it can detect a dog and determine its breed from an image or live video.
+
+> **Note**: You must use Xcode 9 (supports iOS 11) to build this app.
 
 ## Structure
 
 - iOS/
 	- Contains Xcode project for iOS application
 - ML/
-	- Keras Models
-		- `ML/ResNet50_for_iOS.h5`
-			- LABELS: [found here](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a) - dogs correspond to 151-268, inclusive
-		- `ML/student_model_for_iOS.h5`
-			- LABELS: `ML/dog_names.txt` - all are dogs
-	- Jupyter Notebook
-		- `ML/some_notes.ipynb` = sample labels for student model (top label) and ResNet-50 model (top 5 labels w/ probabilities) on the images located in the `ML/images` folder
+	- images/
+		- Test images to use for classification
+	- models/
+		- Keras and Core ML models
+	- scripts/
+		- Python scripts for creating and testing models
+
+## Requirements
+
+- To run the iOS project, you must use Xcode 9
+- To run any of the Python scripts, use the `coreml-environment.yml` file to create a [Anaconda environment](https://conda.io/docs/using/envs.html) with the correct dependencies
+- To run the Python script which generates a Core ML (.mlmodel) model, you must be running macOS 10.13 (High Sierra)
+
+> **Note**: Apple software can be downloaded from [Apple's download page](https://developer.apple.com/download/).
+
+## How it Works
+
+The iOS app relies on two neural networks — Resnet50 and StudentDogModel (the dog classifier). When an image or video frame is processed by the app, it first goes through the Resnet50 model to determine if a dog is present in the image. If a dog is present, then a second classification is done using the StudentDogModel which determines the dog's breed.

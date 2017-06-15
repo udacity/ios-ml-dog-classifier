@@ -1,5 +1,5 @@
 # Before running this script, use conda to load the correct environment.
-# `conda env create -f coreml-environment.yml`
+# `conda env create -f ../coreml-environment.yml`
 # `source activiate coreml`
 
 import sys
@@ -7,7 +7,7 @@ import coremltools
 from PIL import Image
 from operator import itemgetter
 
-coreml_model = coremltools.models.MLModel('models/StudentDogModel.mlmodel')
+coreml_model = coremltools.models.MLModel('../models/StudentDogModel.mlmodel')
 text_file = open('dog_names.txt', 'r')
 dog_names = text_file.read().split('\n')
 

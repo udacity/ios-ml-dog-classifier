@@ -1,5 +1,5 @@
 # Before running this script, use conda to load the correct environment.
-# `conda env create -f coreml-environment.yml`
+# `conda env create -f ../coreml-environment.yml`
 # `source activiate coreml`
 
 import sys
@@ -9,7 +9,7 @@ from keras.preprocessing import image
 from keras.applications.resnet50 import decode_predictions, preprocess_input
 from operator import itemgetter
 
-test_student_model = load_model('models/StudentDogModel.h5')
+test_student_model = load_model('../models/StudentDogModel.h5')
 text_file = open('dog_names.txt', 'r')
 dog_names = text_file.read().split('\n')
 

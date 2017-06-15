@@ -12,7 +12,7 @@ rgb = [-123.68, -116.779, -103.939]
 scale = 1.0
 
 coreml_model = coremltools.converters.keras.convert(
-    'models/StudentDogModel.h5',
+    '../models/StudentDogModel.h5',
     input_names='image',
     image_input_names='image',
     output_names = ['classLabelProbs', 'classLabel'],
@@ -28,4 +28,4 @@ coreml_model.input_description['image'] = 'Input image to be classified.'
 coreml_model.output_description['classLabelProbs'] = 'Probability of image belonging to class (breed).'
 coreml_model.output_description['classLabel'] = 'Image classes (breeds).'
 
-coreml_model.save('models/StudentDogModel.mlmodel')
+coreml_model.save('../models/StudentDogModel.mlmodel')
