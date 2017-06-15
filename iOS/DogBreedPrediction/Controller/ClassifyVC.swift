@@ -15,7 +15,7 @@ class ClassifyVC: UIViewController {
     
     // MARK: Properties
     
-    private let classifier = Classifier()
+    private let classifier = ImageClassifier()
     private let classifyView: ClassifyView = {
         let view = ClassifyView(frame: .zero)
         return view
@@ -55,13 +55,9 @@ extension ClassifyVC: UIImagePickerControllerDelegate, UINavigationControllerDel
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let cgImage = image.cgImage {
             classifyView.changeImage(image)
             classifyView.changeDetailText(toText: "Processing image for classification...")
-            classifier.classifyImageWithVision(image: cgImage) { (predictionString, error) in
+            classifier.classifyImageWithVision(image: cgImage) { (results) in
                 DispatchQueue.main.async {
-                    if let error = error {
-                        self.classifyView.detailTextView.text = error
-                    } else {
-                        self.classifyView.detailTextView.text = predictionString
-                    }
+                    self.classifyView.detailTextView.text = results
                 }
             }
         }

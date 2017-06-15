@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import AVFoundation
-import CoreML
-import Vision
+import CoreMedia
+
+// CREDIT: github.com/yulingtianxia/Core-ML-Sample
 
 // MARK: - ClassifyVideoVC: UIViewController
 
@@ -17,139 +17,82 @@ class ClassifyVideoVC: UIViewController {
     
     // MARK: Properties
     
-    private let classifier = Classifier()
-    private var session: AVCaptureSession?
-    private var output: AVCaptureVideoDataOutput?
-    private var previewLayer: AVCaptureVideoPreviewLayer?    
-        
-    private let resultLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 90.0))
-        label.backgroundColor = .black
-        label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 15.0)
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        return label
-    }()
-    private let closeButton: UIButton = {
-        let button = UIButton(frame: .zero)
-        button.setImage(#imageLiteral(resourceName: "close"), for: .normal)
-        button.addTarget(self, action: #selector(close), for: .touchUpInside)
-        return button
+    private let classifier = VideoClassifier()
+    private var videoCapture: VideoCapture!
+    private let classifyVideoView: ClassifyVideoView = {
+        let view = ClassifyVideoView(frame: .zero)
+        return view
     }()
     
+    // FIXME: Because of delayed processing, count frames without dogs until it reaches a threshold before displaying "Searching for dogs..."
+    private var nullCount = 0
+            
     // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        classifyVideoView.delegate = self
+        classifyVideoView.frame = view.frame
+        view = classifyVideoView
+        
         // NOTE: Subscribe to dog detection events
-        NotificationCenter.default.addObserver(self, selector: #selector(dogDetected), name: NSNotification.Name("DogDetected"), object: classifier)
-        NotificationCenter.default.addObserver(self, selector: #selector(dogNotFound), name: NSNotification.Name("DogNotFound"), object: classifier)
+        NotificationCenter.default.addObserver(self, selector: #selector(breedFound), name: NSNotification.Name("BreedFound"), object: classifier)
+        NotificationCenter.default.addObserver(self, selector: #selector(dogNotFound), name: NSNotification.Name("DogNotFound"), object: classifier)        
         
-        // NOTE: Check and initialize camera
-        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            let cameraLabel = UILabel(frame: view.bounds)
-            cameraLabel.text = "Must use a device with a camera."
-            cameraLabel.backgroundColor = .black
-            cameraLabel.textColor = .white
-            cameraLabel.font = .boldSystemFont(ofSize: 15.0)
-            cameraLabel.numberOfLines = 0
-            cameraLabel.textAlignment = .center
-            view.addSubview(cameraLabel)
-            return
-        }
-        initializeCamera()
+        // NOTE: Initialize video camera
+        // FIXME: Add square focus frame to camera
+        let spec = VideoSpec(fps: 10, size: CGSize(width: 224, height: 224))
+        videoCapture = VideoCapture(cameraType: .back,
+                                    preferredSpec: spec,
+                                    previewContainer: classifyVideoView.previewView.layer)
         
-        // NOTE: Begin video feed
-        if let session = session {
-            previewLayer = AVCaptureVideoPreviewLayer(session: session)
-            if let previewLayer = previewLayer {
-                previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                previewLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.width)
-                view.layer.addSublayer(previewLayer)
-            }
-        }
-        session?.startRunning()
-        
-        // NOTE: Add remaining views
-        view.addSubview(resultLabel)
-        view.addSubview(closeButton)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        previewLayer?.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.width)
-        resultLabel.frame = CGRect(x: 0.0, y: view.frame.size.height - resultLabel.frame.size.height, width: view.frame.size.width, height: resultLabel.frame.size.height)
-        closeButton.frame = CGRect(x: view.frame.size.width - 64, y: 32, width: 48, height: 48)
-    }
-    
-    // MARK: Dismiss
-    
-    @objc private func close() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    // MARK: Camera Methods
-    
-    private func initializeCamera() {
-        session = AVCaptureSession()
-        session?.sessionPreset = AVCaptureSession.Preset.high
-        if let device = AVCaptureDevice.default(for: AVMediaType.video),
-            let input = try? AVCaptureDeviceInput(device: device) {
-            session?.addInput(input)
-        }
-        
-        // NOTE: Use a background queue when processing the session output
-        let queue = DispatchQueue.global(qos: .background)
-        output = AVCaptureVideoDataOutput()
-        output?.setSampleBufferDelegate(self, queue: queue)
-        if let output = output {
-            session?.addOutput(output)
+        videoCapture.imageBufferHandler = { [unowned self] (imageBuffer) in
+            self.classifier.detectDog(sampleBuffer: imageBuffer)
         }
     }
     
-    // MARK: Determine Dog Breed
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let videoCapture = videoCapture else {return}
+        videoCapture.startCapture()
+    }
     
-    @objc private func dogDetected(notification: Notification) {
-        if let dogDetectedFrame = notification.userInfo?["frame"] as? CIImage {
-            classifier.classifyImageWithVision(image: dogDetectedFrame) { (predictionString, error) in
-                DispatchQueue.main.async {
-                    if let error = error {
-                        self.resultLabel.text = error
-                    } else {
-                        self.resultLabel.text = predictionString!
-                    }                    
-                }                
-            }
-        } else {
-            print("frame not found")
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let videoCapture = videoCapture else {return}
+        videoCapture.resizePreview()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        guard let videoCapture = videoCapture else {return}
+        videoCapture.stopCapture()
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        super.viewWillDisappear(animated)
+    }
+    
+    // MARK: Notifications
+    
+    @objc private func breedFound(notification: Notification) {
+        nullCount = 0
+        if let results = notification.userInfo?["results"] as? String {
+            classifyVideoView.updatePredictionLabel(withText: results)
         }
     }
     
     @objc private func dogNotFound(notification: Notification) {
-        self.resultLabel.text = "No dogs present..."
+        nullCount += 1
+        if nullCount >= 2 {
+            classifyVideoView.updatePredictionLabel(withText: "Searching for dogs...")
+        }
     }
 }
 
-// MARK: - ClassifyVideoVC: AVCaptureVideoDataOutputSampleBufferDelegate
+// MARK: - ClassifyVideoVC: ClassifyVideoViewDelegate
 
-extension ClassifyVideoVC: AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        // NOTE: Get pixel buffer for current video frame
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-        
-        // NOTE: Save frame for classifier
-        classifier.currentFrame = CIImage(cvPixelBuffer: pixelBuffer)
-        
-        // NOTE: Tell the classifer to start!
-        var requestOptions: [VNImageOption: Any] = [:]
-        if let cameraIntrinsicData = CMGetAttachment(sampleBuffer, kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, nil) {
-            requestOptions[.cameraIntrinsics] = cameraIntrinsicData
-        }
-        classifier.classifyVideoFrame(pixelBuffer: pixelBuffer, requestOptions: requestOptions)
+extension ClassifyVideoVC: ClassifyVideoViewDelegate {
+    func closeButtonPressed() {
+        dismiss(animated: true, completion: nil)
     }
 }
