@@ -22,7 +22,6 @@ def path_to_tensor(img_path):
 
 def student_model_predict_label_h5(img_path):
     """ uses the student's model to predict dog breed """
-    #return dog_names[np.argmax(test_student_model.predict(proc_tensor))]
     proc_tensor = path_to_tensor(img_path)
     return probs_for_breeds_h5(test_student_model.predict(proc_tensor))
 
@@ -38,4 +37,4 @@ def probs_for_breeds_h5(breed_predictions):
 if __name__ == '__main__':
     img_path = sys.argv[1]
     print('STUDENT MODEL:')
-    print(student_model_predict_label(img_path))
+    print(student_model_predict_label_h5(img_path))

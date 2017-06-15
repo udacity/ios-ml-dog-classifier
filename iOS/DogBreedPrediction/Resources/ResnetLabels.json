@@ -1,0 +1,502 @@
+[
+    {
+        "id":"151",
+        "label":"Chihuahua"
+    },
+    {
+        "id":"152",
+        "label":"Japanese spaniel"
+    },
+    {
+        "id":"153",
+        "label":"Maltese dog, Maltese terrier, Maltese"
+    },
+    {
+        "id":"154",
+        "label":"Pekinese, Pekingese, Peke"
+    },
+    {
+        "id":"155",
+        "label":"Shih-Tzu"
+    },
+    {
+        "id":"156",
+        "label":"Blenheim spaniel"
+    },
+    {
+        "id":"157",
+        "label":"papillon"
+    },
+    {
+        "id":"158",
+        "label":"toy terrier"
+    },
+    {
+        "id":"159",
+        "label":"Rhodesian ridgeback"
+    },
+    {
+        "id":"160",
+        "label":"Afghan hound, Afghan"
+    },
+    {
+        "id":"161",
+        "label":"basset, basset hound"
+    },
+    {
+        "id":"162",
+        "label":"beagle"
+    },
+    {
+        "id":"163",
+        "label":"bloodhound, sleuthhound"
+    },
+    {
+        "id":"164",
+        "label":"bluetick"
+    },
+    {
+        "id":"165",
+        "label":"black-and-tan coonhound"
+    },
+    {
+        "id":"166",
+        "label":"Walker hound, Walker foxhound"
+    },
+    {
+        "id":"167",
+        "label":"English foxhound"
+    },
+    {
+        "id":"168",
+        "label":"redbone"
+    },
+    {
+        "id":"169",
+        "label":"borzoi, Russian wolfhound"
+    },
+    {
+        "id":"170",
+        "label":"Irish wolfhound"
+    },
+    {
+        "id":"171",
+        "label":"Italian greyhound"
+    },
+    {
+        "id":"172",
+        "label":"whippet"
+    },
+    {
+        "id":"173",
+        "label":"Ibizan hound, Ibizan Podenco"
+    },
+    {
+        "id":"174",
+        "label":"Norwegian elkhound, elkhound"
+    },
+    {
+        "id":"175",
+        "label":"otterhound, otter hound"
+    },
+    {
+        "id":"176",
+        "label":"Saluki, gazelle hound"
+    },
+    {
+        "id":"177",
+        "label":"Scottish deerhound, deerhound"
+    },
+    {
+        "id":"178",
+        "label":"Weimaraner"
+    },
+    {
+        "id":"179",
+        "label":"Staffordshire bullterrier, Staffordshire bull terrier"
+    },
+    {
+        "id":"180",
+        "label":"American Staffordshire terrier, Staffordshire terrier, American pit bull terrier, pit bull terrier"
+    },
+    {
+        "id":"181",
+        "label":"Bedlington terrier"
+    },
+    {
+        "id":"182",
+        "label":"Border terrier"
+    },
+    {
+        "id":"183",
+        "label":"Kerry blue terrier"
+    },
+    {
+        "id":"184",
+        "label":"Irish terrier"
+    },
+    {
+        "id":"185",
+        "label":"Norfolk terrier"
+    },
+    {
+        "id":"186",
+        "label":"Norwich terrier"
+    },
+    {
+        "id":"187",
+        "label":"Yorkshire terrier"
+    },
+    {
+        "id":"188",
+        "label":"wire-haired fox terrier"
+    },
+    {
+        "id":"189",
+        "label":"Lakeland terrier"
+    },
+    {
+        "id":"190",
+        "label":"Sealyham terrier, Sealyham"
+    },
+    {
+        "id":"191",
+        "label":"Airedale, Airedale terrier"
+    },
+    {
+        "id":"192",
+        "label":"cairn, cairn terrier"
+    },
+    {
+        "id":"193",
+        "label":"Australian terrier"
+    },
+    {
+        "id":"194",
+        "label":"Dandie Dinmont, Dandie Dinmont terrier"
+    },
+    {
+        "id":"195",
+        "label":"Boston bull, Boston terrier"
+    },
+    {
+        "id":"196",
+        "label":"miniature schnauzer"
+    },
+    {
+        "id":"197",
+        "label":"giant schnauzer"
+    },
+    {
+        "id":"198",
+        "label":"standard schnauzer"
+    },
+    {
+        "id":"199",
+        "label":"Scotch terrier, Scottish terrier, Scottie"
+    },
+    {
+        "id":"200",
+        "label":"Tibetan terrier, chrysanthemum dog"
+    },
+    {
+        "id":"201",
+        "label":"silky terrier, Sydney silky"
+    },
+    {
+        "id":"202",
+        "label":"soft-coated wheaten terrier"
+    },
+    {
+        "id":"203",
+        "label":"West Highland white terrier"
+    },
+    {
+        "id":"204",
+        "label":"Lhasa, Lhasa apso"
+    },
+    {
+        "id":"205",
+        "label":"flat-coated retriever"
+    },
+    {
+        "id":"206",
+        "label":"curly-coated retriever"
+    },
+    {
+        "id":"207",
+        "label":"golden retriever"
+    },
+    {
+        "id":"208",
+        "label":"Labrador retriever"
+    },
+    {
+        "id":"209",
+        "label":"Chesapeake Bay retriever"
+    },
+    {
+        "id":"210",
+        "label":"German short-haired pointer"
+    },
+    {
+        "id":"211",
+        "label":"vizsla, Hungarian pointer"
+    },
+    {
+        "id":"212",
+        "label":"English setter"
+    },
+    {
+        "id":"213",
+        "label":"Irish setter, red setter"
+    },
+    {
+        "id":"214",
+        "label":"Gordon setter"
+    },
+    {
+        "id":"215",
+        "label":"Brittany spaniel"
+    },
+    {
+        "id":"216",
+        "label":"clumber, clumber spaniel"
+    },
+    {
+        "id":"217",
+        "label":"English springer, English springer spaniel"
+    },
+    {
+        "id":"218",
+        "label":"Welsh springer spaniel"
+    },
+    {
+        "id":"219",
+        "label":"cocker spaniel, English cocker spaniel, cocker"
+    },
+    {
+        "id":"220",
+        "label":"Sussex spaniel"
+    },
+    {
+        "id":"221",
+        "label":"Irish water spaniel"
+    },
+    {
+        "id":"222",
+        "label":"kuvasz"
+    },
+    {
+        "id":"223",
+        "label":"schipperke"
+    },
+    {
+        "id":"224",
+        "label":"groenendael"
+    },
+    {
+        "id":"225",
+        "label":"malinois"
+    },
+    {
+        "id":"226",
+        "label":"briard"
+    },
+    {
+        "id":"227",
+        "label":"kelpie"
+    },
+    {
+        "id":"228",
+        "label":"komondor"
+    },
+    {
+        "id":"229",
+        "label":"Old English sheepdog, bobtail"
+    },
+    {
+        "id":"230",
+        "label":"Shetland sheepdog, Shetland sheep dog, Shetland"
+    },
+    {
+        "id":"231",
+        "label":"collie"
+    },
+    {
+        "id":"232",
+        "label":"Border collie"
+    },
+    {
+        "id":"233",
+        "label":"Bouvier des Flandres, Bouviers des Flandres"
+    },
+    {
+        "id":"234",
+        "label":"Rottweiler"
+    },
+    {
+        "id":"235",
+        "label":"German shepherd, German shepherd dog, German police dog, alsatian"
+    },
+    {
+        "id":"236",
+        "label":"Doberman, Doberman pinscher"
+    },
+    {
+        "id":"237",
+        "label":"miniature pinscher"
+    },
+    {
+        "id":"238",
+        "label":"Greater Swiss Mountain dog"
+    },
+    {
+        "id":"239",
+        "label":"Bernese mountain dog"
+    },
+    {
+        "id":"240",
+        "label":"Appenzeller"
+    },
+    {
+        "id":"241",
+        "label":"EntleBucher"
+    },
+    {
+        "id":"242",
+        "label":"boxer"
+    },
+    {
+        "id":"243",
+        "label":"bull mastiff"
+    },
+    {
+        "id":"244",
+        "label":"Tibetan mastiff"
+    },
+    {
+        "id":"245",
+        "label":"French bulldog"
+    },
+    {
+        "id":"246",
+        "label":"Great Dane"
+    },
+    {
+        "id":"247",
+        "label":"Saint Bernard, St Bernard"
+    },
+    {
+        "id":"248",
+        "label":"Eskimo dog, husky"
+    },
+    {
+        "id":"249",
+        "label":"malamute, malemute, Alaskan malamute"
+    },
+    {
+        "id":"250",
+        "label":"Siberian husky"
+    },
+    {
+        "id":"251",
+        "label":"dalmatian, coach dog, carriage dog"
+    },
+    {
+        "id":"252",
+        "label":"affenpinscher, monkey pinscher, monkey dog"
+    },
+    {
+        "id":"253",
+        "label":"basenji"
+    },
+    {
+        "id":"254",
+        "label":"pug, pug-dog"
+    },
+    {
+        "id":"255",
+        "label":"Leonberg"
+    },
+    {
+        "id":"256",
+        "label":"Newfoundland, Newfoundland dog"
+    },
+    {
+        "id":"257",
+        "label":"Great Pyrenees"
+    },
+    {
+        "id":"258",
+        "label":"Samoyed, Samoyede"
+    },
+    {
+        "id":"259",
+        "label":"Pomeranian"
+    },
+    {
+        "id":"260",
+        "label":"chow, chow chow"
+    },
+    {
+        "id":"261",
+        "label":"keeshond"
+    },
+    {
+        "id":"262",
+        "label":"Brabancon griffon"
+    },
+    {
+        "id":"263",
+        "label":"Pembroke, Pembroke Welsh corgi"
+    },
+    {
+        "id":"264",
+        "label":"Cardigan, Cardigan Welsh corgi"
+    },
+    {
+        "id":"265",
+        "label":"toy poodle"
+    },
+    {
+        "id":"266",
+        "label":"miniature poodle"
+    },
+    {
+        "id":"267",
+        "label":"standard poodle"
+    },
+    {
+        "id":"268",
+        "label":"Mexican hairless"
+    },
+    {
+        "id":"269",
+        "label":"timber wolf, grey wolf, gray wolf, Canis lupus"
+    },
+    {
+        "id":"270",
+        "label":"white wolf, Arctic wolf, Canis lupus tundrarum"
+    },
+    {
+        "id":"271",
+        "label":"red wolf, maned wolf, Canis rufus, Canis niger"
+    },
+    {
+        "id":"272",
+        "label":"coyote, prairie wolf, brush wolf, Canis latrans"
+    },
+    {
+        "id":"273",
+        "label":"dingo, warrigal, warragal, Canis dingo"
+    },
+    {
+        "id":"274",
+        "label":"dhole, Cuon alpinus"
+    },
+    {
+        "id":"275",
+        "label":"African hunting dog, hyena dog, Cape hunting dog, Lycaon pictus"
+    }
+]

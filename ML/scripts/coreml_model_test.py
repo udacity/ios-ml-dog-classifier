@@ -19,7 +19,6 @@ def prepare_image(image_path):
 def student_model_predict_label_coreml(image_path):
     """ uses the student's model to predict dog breed """
     image = prepare_image(image_path)
-    # return dog_names[np.argmax(coreml_model.predict({'image': image}))]
     return probs_for_breeds_coreml(coreml_model.predict({'image': image}))
 
 def probs_for_breeds_coreml(breed_predictions):
