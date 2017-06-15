@@ -1,5 +1,5 @@
 # Before running this script, use conda to load the correct environment.
-# `conda env create -f coreml-environment.yml`
+# `conda env create -f coreml_environment.yml`
 # `source activiate coreml`
 
 from keras.applications.resnet50 import ResNet50
