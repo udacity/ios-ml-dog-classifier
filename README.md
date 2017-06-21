@@ -4,6 +4,8 @@ This iOS app uses [CoreML](https://developer.apple.com/machine-learning/) and a 
 
 > **Note**: You must use Xcode 9 (supports iOS 11) to build this app.
 
+<img src="./classify.png" width="300">
+
 ## Structure
 
 - iOS/
